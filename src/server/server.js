@@ -6,6 +6,7 @@ const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const encryptor = require('simple-encryptor')(process.env.MY_SECRET_KEY);
 const Rooms = require('./utils/rooms');
+const randomHash = require('./utils/randomHash');
 
 let room = new Rooms();
 
@@ -37,12 +38,34 @@ app.get('/', ( req, res )=>{
 
 
 app.post('/createInv', ( req, res )=>{
-    room.addRoom()
-    console.log(req.body);
-
-    // res.send({
-    //     hash: link
-    // })
+    let chatRoom = room.getRoomByCode(req.body.code);
+    if(chatRoom){
+        let obj = {
+            id: chatRoom.id,
+            name: req.body.userName,
+            code: req.body.code
+        }
+        let hash = encryptor.encrypt(obj);
+        room.addUserToRoom(roomId, req.body.userName, hash);
+        res.send({
+            user: req.body.userName,
+            url: hash,
+        });
+    }else{
+        let roomId = randomHash(15);
+        let obj = {
+            id: roomId,
+            name: req.body.userName,
+            code: req.body.code
+        }
+        let hash = encryptor.encrypt(obj);
+        room.addRoom(roomId, req.body.code)
+        room.addUserToRoom(roomId, req.body.userName, hash);
+        res.send({
+            user: req.body.userName,
+            url: hash,
+        });
+    }
 })
 
 

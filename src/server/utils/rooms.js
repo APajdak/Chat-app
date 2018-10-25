@@ -16,8 +16,8 @@ class Rooms{
     getRoomById(id){
         return this.rooms.find(room => room.id == id);
     }
-    getRoomByCode(Pin){
-        return this.rooms.find(room => room.Code == Code);
+    getRoomByCode(code){
+        return this.rooms.find(room => room.code == code);
     }
     
     addUserToRoom(id, userName, hash){

@@ -10,11 +10,16 @@ $(function(){
                     code: `${$('#code').html()}`
                 }
                 }).done(function(response){
-                        console.log("serwer");
+                    createLink(response);
+                        console.log(response);
                 }).fail(function(error){
                         console.log(error);
             });
         }
-	});
+    });
+    
+    function createLink(response){
+        
+    }
 
 });
