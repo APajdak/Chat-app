@@ -23,7 +23,7 @@ body{
     box-shadow: 0 0 10px #1f1e1e;
 }
 
-#code{
+.code{
     height: 50px;
     line-height: 50px;
     text-align: center;
@@ -50,9 +50,9 @@ input{
     color: #235;
 }
 input:focus{
-    box-shadow: 0 0 1px #6f00c5;
-    border: 1px solid #6f00c5;
-    outline: 1px solid #6f00c5;
+    box-shadow: 0 0 1px #8a00f4;
+    border: 1px solid #8a00f4;
+    outline: 1px solid #8a00f4;
 }
 
 button{
@@ -78,4 +78,8 @@ ul li{
     list-style: none;
     margin: 10px 0;
     
+}
+
+li:first-child{
+    color:blue;
 }

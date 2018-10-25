@@ -3,6 +3,11 @@ const http = require('http');
 const express = require('express');
 const socketIO = require('socket.io');
 const hbs = require('hbs');
+const bodyParser = require('body-parser');
+const encryptor = require('simple-encryptor')(process.env.MY_SECRET_KEY);
+const Rooms = require('./utils/rooms');
+
+let room = new Rooms();
 
 const viewPath = path.join(__dirname, '/../views')
 const publicPath = path.join(__dirname, '/../public')
@@ -15,6 +20,8 @@ let io = socketIO(server);
 hbs.registerPartials(viewPath + '/partials');
 app.set('views', viewPath);
 app.set('view engine', hbs);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(publicPath));
 
@@ -29,13 +36,13 @@ app.get('/', ( req, res )=>{
 });
 
 
-app.get('/createInv', ( req, res )=>{
-    
-    let link = 'hyhy'
+app.post('/createInv', ( req, res )=>{
+    room.addRoom()
+    console.log(req.body);
 
-    res.send({
-        hash: link
-    })
+    // res.send({
+    //     hash: link
+    // })
 })
 
 
