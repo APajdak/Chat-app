@@ -9,6 +9,7 @@
   "author": "Andrew",
   "license": "ISC",
   "dependencies": {
+    "simple-encryptor": "^2.0.0",
     "express": "^4.16.4",
     "hbs": "^4.0.1",
     "socket.io": "^2.1.1"
