@@ -4,7 +4,8 @@
   "description": "Chat app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./src/server/server.js",
+    "test": "mocha src/server/**/*.test.js"
   },
   "author": "Andrew",
   "license": "ISC",
@@ -13,5 +14,9 @@
     "express": "^4.16.4",
     "hbs": "^4.0.1",
     "socket.io": "^2.1.1"
+  },
+  "devDependencies": {
+    "expect": "^23.6.0",
+    "mocha": "^5.2.0"
   }
 }
