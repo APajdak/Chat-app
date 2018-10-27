@@ -4,7 +4,7 @@ const express = require('express');
 const socketIO = require('socket.io');
 const hbs = require('hbs');
 const bodyParser = require('body-parser');
-const encryptor = require('simple-encryptor')(process.env.MY_SECRET_KEY);
+const encryptor = require('simple-encryptor')('przylecial ptaszek z lobzowa');
 const Rooms = require('./utils/rooms');
 const randomHash = require('./utils/randomHash');
 
@@ -46,7 +46,7 @@ app.post('/createInv', ( req, res )=>{
             code: req.body.code
         }
         let hash = encryptor.encrypt(obj);
-        room.addUserToRoom(roomId, req.body.userName, hash);
+        room.addUserToRoom(chatRoom.id, req.body.userName, hash);
         res.send({
             user: req.body.userName,
             url: hash,
@@ -66,6 +66,19 @@ app.post('/createInv', ( req, res )=>{
             url: hash,
         });
     }
+});
+
+let checkHash = (req, res, next)=>{
+    if(checkIfHashExist(req.params.hash)){
+        next();
+    }else{
+        res.redirect(301, '/');
+    }
+}
+
+
+app.get('/chat/:hash', checkHash, (req, res)=>{
+    
 })
 
 

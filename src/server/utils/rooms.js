@@ -44,6 +44,14 @@ class Rooms{
             return false;
         }
     }
+    checkIfHashExist(hash){
+        let result = this.rooms.filter(elem => elem.users.find(user => user.hash == hash));
+        if(result.length){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     removeUserFromRoom(id, userName){
         let room = this.getRoomById(id);
