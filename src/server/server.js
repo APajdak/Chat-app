@@ -5,10 +5,10 @@ const socketIO = require('socket.io');
 const hbs = require('hbs');
 const bodyParser = require('body-parser');
 const encryptor = require('simple-encryptor')('przylecial ptaszek z lobzowa');
-const Rooms = require('./utils/rooms');
+const Chat = require('./utils/chat');
 const randomHash = require('./utils/randomHash');
 
-let room = new Rooms();
+let chat = new Chat();
 
 const viewPath = path.join(__dirname, '/../views')
 const publicPath = path.join(__dirname, '/../public')
@@ -26,7 +26,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(express.static(publicPath));
 
-app.get('/', ( req, res )=>{
+app.get('/', (req, res) => {
     let randomCode = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
 
     res.render('index.hbs', {
@@ -36,52 +36,34 @@ app.get('/', ( req, res )=>{
     });
 });
 
+app.get('/roomID', (req, res) => {
+    res.send(randomHash(15));
+})
 
-app.post('/createInv', ( req, res )=>{
-    let chatRoom = room.getRoomByCode(req.body.code);
-    if(chatRoom){
-        let obj = {
-            id: chatRoom.id,
-            name: req.body.userName,
-            code: req.body.code
-        }
-        let hash = encryptor.encrypt(obj);
-        room.addUserToRoom(chatRoom.id, req.body.userName, hash);
-        res.send({
-            user: req.body.userName,
-            url: hash,
-        });
-    }else{
-        let roomId = randomHash(15);
-        let obj = {
-            id: roomId,
-            name: req.body.userName,
-            code: req.body.code
-        }
-        let hash = encryptor.encrypt(obj);
-        room.addRoom(roomId, req.body.code)
-        room.addUserToRoom(roomId, req.body.userName, hash);
-        res.send({
-            user: req.body.userName,
-            url: hash,
-        });
-    }
+
+app.post('/createInv', (req, res) => {
+    let token = chat.createToken(req.body.room, req.body.userName, req.body.code);
+
+    res.send({
+        user: req.body.userName,
+        url: token,
+    });
 });
 
-let checkHash = (req, res, next)=>{
-    if(checkIfHashExist(req.params.hash)){
+let checkHash = (req, res, next) => {
+    if (checkIfHashExist(req.params.hash)) {
         next();
-    }else{
+    } else {
         res.redirect(301, '/');
     }
 }
 
 
-app.get('/chat/:hash', checkHash, (req, res)=>{
-    
+app.get('/chat/:hash', checkHash, (req, res) => {
+
 })
 
 
 server.listen(port, () => {
     console.log(`Server is up on port ${port}`)
-  })
+})
