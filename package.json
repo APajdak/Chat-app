@@ -10,6 +10,7 @@
   "author": "PabloEscobar and Endriu Go Lota",
   "license": "ISC",
   "dependencies": {
+    "date-and-time": "^0.6.3",
     "express": "^4.16.4",
     "hbs": "^4.0.1",
     "simple-encryptor": "^2.0.0",

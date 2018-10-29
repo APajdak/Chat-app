@@ -1,12 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
+{{>head}}
+
 <body>
-    yo
+    <div id="secret">
+        <form id="code-form">
+            <caption>Enter Code</caption>
+            <input type="text" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'');" id="code" autocomplete="off"/>
+        </form>
+    </div>
+    <div class="chat-container">
+        <header id="users-list">
+            users
+        </header>
+        <section id="current-date">
+            {{date}}
+        </section>
+        <ul id="message-list">
+            <li>msg</li>
+            <li>msg</li>
+            <li>msg</li>
+            <li>msg</li>
+            <li>msg</li>
+            <li>msg</li>
+            <li>msg</li>
+            <li>msg</li>
+            <li>msg</li>
+            <li>msg</li>
+            <li>msg</li>
+            <li>msg</li>
+            <li>msg</li>
+            <li>msg</li>
+            <li>msg</li>
+        </ul>
+        <form id="message-form">
+            <input type="text" id="message-input" autocomplete="off">
+        </form>
+    </div>
+
 </body>
+
 </html>

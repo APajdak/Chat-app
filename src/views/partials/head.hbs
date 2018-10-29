@@ -3,11 +3,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" type="image/png" href="img/icon.png">
-    <link rel="stylesheet" href="css/main.css">
+
     {{#if loadSocket}}
-        {{!-- tu socket --}}
+        <link rel="stylesheet" href="../css/main.css">
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="../js/chat.js"></script>
     {{/if}}
     {{#if loadAjax}}
+        <script src="/socket.io/socket.io.js"></script>
+        <link rel="stylesheet" href="css/main.css">
             <script
             src="https://code.jquery.com/jquery-3.3.1.min.js"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="

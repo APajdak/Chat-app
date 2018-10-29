@@ -4,9 +4,9 @@ const express = require('express');
 const socketIO = require('socket.io');
 const hbs = require('hbs');
 const bodyParser = require('body-parser');
-const encryptor = require('simple-encryptor')('przylecial ptaszek z lobzowa');
 const Chat = require('./utils/chat');
 const randomHash = require('./utils/randomHash');
+const date = require('date-and-time');
 
 let chat = new Chat();
 
@@ -23,7 +23,6 @@ app.set('views', viewPath);
 app.set('view engine', hbs);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use(express.static(publicPath));
 
 app.get('/', (req, res) => {
@@ -51,7 +50,7 @@ app.post('/createInv', (req, res) => {
 });
 
 let checkHash = (req, res, next) => {
-    if (checkIfHashExist(req.params.hash)) {
+    if (chat.getToken(encodeURIComponent(req.params.hash))) {
         next();
     } else {
         res.redirect(301, '/');
@@ -60,10 +59,18 @@ let checkHash = (req, res, next) => {
 
 
 app.get('/chat/:hash', checkHash, (req, res) => {
+    res.render('chat.hbs', {
+        date: date.format(new Date(), 'DD MMMM YYYY'),
+        loadSocket: true,
+        title: 'Chat-app'
+    });
+});
 
-})
+io.on('connection', socket =>{
+    
+});
 
 
 server.listen(port, () => {
     console.log(`Server is up on port ${port}`)
-})
+});

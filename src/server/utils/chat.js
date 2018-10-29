@@ -28,8 +28,20 @@ class Chat {
         return token;
     }
 
+    decodeToken(code, token){
+        var decryptor = new Crypto(decryptCode);
+        var decrypted = decryptor.decrypt(token);
+        
+    }
+
     getToken(hash) {
-        return this.tokens.find(token => token == hash);
+        let tkn = this.tokens.find(token => token == hash);
+        if (tkn) {
+            return tkn;
+        } else {
+            return false
+        }
     }
 }
+
 module.exports = Chat;
