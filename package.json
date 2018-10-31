@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./src/server/server.js",
-    "test": "mocha src/server/**/*.test.js"
+    "test": "mocha src/test/**/*.test.js"
   },
-  "author": "PabloEscobar and Endriu Go Lota",
+  "author": "Andrzej",
   "license": "ISC",
   "dependencies": {
     "date-and-time": "^0.6.3",

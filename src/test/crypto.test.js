@@ -1,5 +1,5 @@
 const expect = require('expect');
-const Crypto = require('./crypto');
+const Crypto = require('../server/utils/crypto');
 
 describe('Crypto', () => {
 
