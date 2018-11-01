@@ -1,36 +1,27 @@
-$(function () {
-    let room;
-    $.ajax({
-        url: `/roomID`,
-        type: 'GET',
-    }).done(function (response) {
-        room = response;
-    }).fail(function (error) {
-        console.log(error);
+document.addEventListener('DOMContentLoaded', ()=>{
+    const socket = io('/index');
+    let roomId;
+    socket.on('room', room =>{
+        roomId = room
     });
+    document.querySelector('#inv').addEventListener('click', createInvitation);
 
-    $('#inv').on('click', function () {
-        if ($('#usr').val()) {
-            $.ajax({
-                url: `/createInv`,
-                type: 'POST',
-                data: {
-                    room: room,
-                    userName: `${$('#usr').val()}`,
-                    code: `${$('#code').html()}`
-                }
-            }).done(function (response) {
-                createInv(response);
-            }).fail(function (error) {
-                console.log(error);
+    function createInvitation(){
+        let userNameInput = document.querySelector('#usr');
+        if(userNameInput.value){
+            socket.emit('createInvitation', {
+                room: roomId,
+                userName: userNameInput.value,
+                code: document.querySelector('#code').innerHTML
             });
+            userNameInput.value = "";
         }
-        $('#usr').val('');
-    });
+    }
+})
+
 
     function createInv(response){
-        let url = new URL(`/chat/${response.url}`, 'http://127.0.0.1:3000');
-        console.log(url);
+        let url = new URL(`/chat?token=${response.url}`, 'http://127.0.0.1:3000');
         let li = $(`<li data-url=""></li>`);
         let span =$(`<span class="user">${response.user}</span>`);
         let inpt = $(`<input type="text" value="${url}"></input>`);
@@ -58,4 +49,3 @@ $(function () {
         }
     }
 
-});

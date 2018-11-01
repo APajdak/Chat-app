@@ -27,46 +27,43 @@ app.use(express.static(publicPath));
 
 app.get('/', (req, res) => {
     let randomCode = (Math.floor(Math.random() * 10000) + 10000).toString().substring(1);
-
     res.render('index.hbs', {
         code: randomCode,
         title: 'Advanced Chat',
         loadAjax: true,
     });
 });
+let indexApp = io.of('/index');
 
-app.get('/roomID', (req, res) => {
-    res.send(randomHash(15));
+indexApp.on('connection', socket=>{
+    
+    indexApp.to(socket.id).emit('room', randomHash(15));
+
+    socket.on('createInvitation', data=>{
+        console.log(data);
+    })
 })
 
 
-app.post('/createInv', (req, res) => {
-    let token = chat.createToken(req.body.room, req.body.userName, req.body.code);
-
-    res.send({
-        user: req.body.userName,
-        url: token,
-    });
-});
-
-let checkHash = (req, res, next) => {
-    if (chat.getToken(encodeURIComponent(req.params.hash))) {
-        next();
-    } else {
-        res.redirect(301, '/');
-    }
-}
-
-
-app.get('/chat/:hash', checkHash, (req, res) => {
+app.get('/chat', (req, res) => {
     res.render('chat.hbs', {
         date: date.format(new Date(), 'DD MMMM YYYY'),
         loadSocket: true,
         title: 'Chat-app'
     });
-});
+})
 
-io.on('connection', socket =>{
+let chatApp = io.of('/chat');
+
+chatApp.on('connection', socket => {
+    socket.on('code', data => {
+        let token = chat.decodeToken(data.code, socket.handshake.query.token);
+        if(token){
+            socket.join(token.ID);
+        }else{
+            console.log("Try again");
+        }
+    });
     
 });
 

@@ -29,9 +29,9 @@ class Chat {
     }
 
     decodeToken(code, token){
-        var decryptor = new Crypto(decryptCode);
-        var decrypted = decryptor.decrypt(token);
-        
+        let decryptor = new Crypto(code);
+        let decrypted = decryptor.decrypt(token);
+        return decrypted;
     }
 
     getToken(hash) {
