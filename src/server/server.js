@@ -4,11 +4,11 @@ const express = require('express');
 const socketIO = require('socket.io');
 const hbs = require('hbs');
 const bodyParser = require('body-parser');
-const Chat = require('./utils/chat');
+const Room = require('./utils/room');
 const randomHash = require('./utils/randomHash');
 const date = require('date-and-time');
 
-let chat = new Chat();
+let chat = new Room();
 
 const viewPath = path.join(__dirname, '/../views')
 const publicPath = path.join(__dirname, '/../public')
@@ -40,7 +40,11 @@ indexApp.on('connection', socket=>{
     indexApp.to(socket.id).emit('room', randomHash(15));
 
     socket.on('createInvitation', data=>{
-        console.log(data);
+       let token =  chat.createToken(data);
+       indexApp.to(socket.id).emit('token', {
+           url: token,
+           user : data.userName
+       });
     })
 })
 

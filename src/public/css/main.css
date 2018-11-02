@@ -16,6 +16,7 @@ body {
     background-color: rgb(173, 173, 173)
 }
 
+
 .container {
     height: fit-content;
     position: absolute;
@@ -79,8 +80,8 @@ ul {
 
 ul li {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
-    grid-gap: 1px;
+    grid-template-columns: repeat(6, 1fr);
+    grid-gap: 10px;
     color: #235;
     list-style: none;
     margin: 5px 0;
@@ -90,77 +91,71 @@ ul li {
     text-align: left;
     transition: .4s;
 }
-
-li span {
-    grid-column: span 7 / auto;
+li .wrapper{
+    border: 1px solid black;
+    grid-column: span 5 / auto;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
 }
-
-li input {
-    width: 100%;
+li .wrapper input {
+    grid-column: span 6 / auto;
 }
-
-li button {
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
-    height: 30px;
-    width: 50px;
-    border: none;
+.copy{
+    font-size: 17px;
+    color: #aaa;
+    background-color: #8a00f4;
+    transition: 0.3s;
+    text-align: center
 }
-
-button.cpy {
-    background-image: url('/img/copy.svg');
+.copy:hover{
+    color: #fff;
+    background-color: #a22efa;
 }
-
-button.del {
-    background-image: url('/img/bin.svg');
+.ac{
+    color: #fff;
+    background-color: #a22efa;
 }
-
 
 
 /* CHAT VIEW */
 
-.chat-container{
+.chat-container {
     height: 100vh;
     display: grid;
     grid-template-columns: 100%;
     grid-template-rows: 20% 2% 73% 5%;
-    grid-template-areas:
-    "header"
-    "date"
-    "chat"
-    "form";
+    grid-template-areas: "header" "date" "chat" "form";
 }
-#users-list{
+
+#users-list {
     grid-area: header;
     background-color: blue;
 }
-#current-date{
+
+#current-date {
     grid-area: date;
     font-size: 25px;
     text-align: center;
+}
 
-    
-}
-#message-list{
+#message-list {
     grid-area: chat;
     background-color: green;
     overflow: auto;
-    
 }
-#message-list{
+
+#message-list {
     grid-area: chat;
     background-color: green;
     overflow: auto;
-    
 }
 
 #message-list::-webkit-scrollbar {
     width: 12px;
-
 }
+
 #message-list::-webkit-scrollbar-track {
-    background: rgb(0,0,0);
+    background: rgb(0, 0, 0);
     border: 4px solid transparent;
     background-clip: content-box;
 }
@@ -169,25 +164,21 @@ button.del {
     background: #cb18f8d0;
 }
 
-#message-list::-webkit-scrollbar-thumb:hover {
+#message-list::-webkit-scrollbar-thumb:hover {}
 
-}
-#message-list li{
-    
-    
-}
-#message-form{
+#message-list li {}
+
+#message-form {
     grid-area: form;
     background-color: red;
-
 }
-#message-form input{
+
+#message-form input {
     width: 100%;
     font-size: 20px;
 }
 
-
-#secret{
+#secret {
     height: fit-content;
     width: 308x;
     border: 2px solid black;
@@ -195,6 +186,7 @@ button.del {
     top: calc(50% - 50px/2);
     left: calc(50% - 308px/2);
 }
-#secret form{
+
+#secret form {
     background-color: #9b289b;
 }

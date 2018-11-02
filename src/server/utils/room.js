@@ -19,11 +19,7 @@ class Chat {
 
     createToken(roomID, userName, code) {
         let crypto = new Crypto(code);
-        let obj = {
-            ID: roomID,
-            USER: userName
-        }
-        let token = crypto.encrypt(obj)
+        let token = crypto.encrypt({roomID, userName})
         this.tokens.push(token);
         return token;
     }
