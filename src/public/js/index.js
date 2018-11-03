@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('room', room => {
         roomId = room
     });
-
     document.querySelector('#inv').addEventListener('click', createInvitation);
 
     function createInvitation() {
@@ -13,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
             socket.emit('createInvitation', {
                 room: roomId,
                 userName: userNameInput.value,
-                code: document.querySelector('#code').innerHTML
+                code: document.querySelector('#code').innerText
             });
             userNameInput.value = "";
         }
@@ -40,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#links').append(li);
         setCopyEvent();
     });
+
     function setCopyEvent() {
         let btns = document.querySelectorAll('.copy');
         for (let i = 0; i < btns.length; i++) {

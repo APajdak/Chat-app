@@ -40,7 +40,7 @@ indexApp.on('connection', socket=>{
     indexApp.to(socket.id).emit('room', randomHash(15));
 
     socket.on('createInvitation', data=>{
-       let token =  chat.createToken(data);
+       let token =  chat.createToken(data.room, data.userName, data.code);
        indexApp.to(socket.id).emit('token', {
            url: token,
            user : data.userName
@@ -61,11 +61,12 @@ let chatApp = io.of('/chat');
 
 chatApp.on('connection', socket => {
     socket.on('code', data => {
-        let token = chat.decodeToken(data.code, socket.handshake.query.token);
+        let token = chat.decodeToken(data.code, encodeURIComponent(socket.handshake.query.token));
+        console.log(token);
         if(token){
             socket.join(token.ID);
         }else{
-            console.log("Try again");
+            chatApp.to(socket.id).emit('incorectCode', "Wrong code, Try again");
         }
     });
     

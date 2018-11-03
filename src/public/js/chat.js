@@ -1,12 +1,10 @@
-document.addEventListener('DOMContentLoaded', ()=>{
+document.addEventListener('DOMContentLoaded', () => {
     const socket = io(window.location.href);
-    //let url = /(?<=chat\/).*/.exec(window.location.href)[0];
     document.querySelector('#code-form').addEventListener('submit', sendCode);
-
-    function sendCode(e){
+    function sendCode(e) {
         e.preventDefault();
         let eneteredCode = document.querySelector('#code').value;
-        if(eneteredCode.length == 4){
+        if (eneteredCode.length == 4) {
             socket.emit('code', {
                 code: eneteredCode
             });
@@ -15,8 +13,13 @@ document.addEventListener('DOMContentLoaded', ()=>{
         document.querySelector('#code').value = '';
     }
 
-    socket.on('hello', data=>{
-        console.log(data);
+    socket.on('incorectCode', data => {
+        document.querySelector('.error-msg').innerHTML = data;
+        document.querySelector('#error').classList.remove('hide');
+        document.querySelector('.error-msg').classList.remove('shake');
+        setTimeout(()=>{
+            document.querySelector('.error-msg').classList.add('shake');
+        },2);
     })
 })
 

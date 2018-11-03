@@ -16,7 +16,6 @@ body {
     background-color: rgb(173, 173, 173)
 }
 
-
 .container {
     height: fit-content;
     position: absolute;
@@ -91,31 +90,35 @@ ul li {
     text-align: left;
     transition: .4s;
 }
-li .wrapper{
+
+li .wrapper {
     border: 1px solid black;
     grid-column: span 5 / auto;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
 }
+
 li .wrapper input {
     grid-column: span 6 / auto;
 }
-.copy{
+
+.copy {
     font-size: 17px;
     color: #aaa;
     background-color: #8a00f4;
     transition: 0.3s;
     text-align: center
 }
-.copy:hover{
-    color: #fff;
-    background-color: #a22efa;
-}
-.ac{
+
+.copy:hover {
     color: #fff;
     background-color: #a22efa;
 }
 
+.ac {
+    color: #fff;
+    background-color: #a22efa;
+}
 
 /* CHAT VIEW */
 
@@ -189,4 +192,43 @@ li .wrapper input {
 
 #secret form {
     background-color: #9b289b;
+}
+
+#error {
+    border-top: 1px solid black;
+    text-align: center;
+    background-color: #c54a4a;
+}
+
+.hide {
+    display: none;
+}
+
+#error .shake {
+    display: inline-block;
+    animation: shake .7s forwards ease;
+    transform: translate3d(0, 0, 0);
+}
+
+@-webkit-keyframes shake {
+    from,
+    to {
+        -webkit-transform: translate3d(0, 0, 0);
+        transform: translate3d(0, 0, 0);
+    }
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        -webkit-transform: translate3d(-5px, 0, 0);
+        transform: translate3d(-5px, 0, 0);
+    }
+    20%,
+    40%,
+    60%,
+    80% {
+        -webkit-transform: translate3d(5px, 0, 0);
+        transform: translate3d(5px, 0, 0);
+    }
 }

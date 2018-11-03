@@ -6,7 +6,9 @@
     <div id="secret">
         <form id="code-form">
             <caption>Enter Code</caption>
-            <input type="text" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'');" id="code" autocomplete="off"/>
+            <input type="text" maxlength="4" oninput="this.value=this.value.replace(/[^0-9]/g,'');" id="code"
+                autocomplete="off" />
+            <div id="error" class="hide"><span class="error-msg"></span></div>
         </form>
     </div>
     <div class="chat-container">
