@@ -71,6 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         li.append(div);
         document.querySelector('#message-list').append(li);
+        scrollChatWindow();
+    }
+    function scrollChatWindow(){
+        document.querySelector('#message-list').scrollTop = document.querySelector('#message-list').scrollHeight;
     }
 })
 
