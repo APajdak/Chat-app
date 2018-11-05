@@ -6,10 +6,11 @@ getTime = function(){
   return `${hours}:${minutes}:${seconds}`;
 }
 
-let generateMessage = (from, msg) => {
+let generateMessage = (from, msg, color) => {
   return {
     from,
     msg,
+    color,
     sendedAt: getTime()
   }
 }

@@ -4,11 +4,13 @@ const express = require('express');
 const socketIO = require('socket.io');
 const hbs = require('hbs');
 const bodyParser = require('body-parser');
-const Room = require('./utils/room');
-const randomHash = require('./utils/randomHash');
 const date = require('date-and-time');
 
-let chat = new Room();
+const Users = require('./utils/users');
+const randomHash = require('./utils/randomHash');
+const {generateMessage} = require('./utils/message');
+
+let users = new Users();
 
 const viewPath = path.join(__dirname, '/../views')
 const publicPath = path.join(__dirname, '/../public')
@@ -40,7 +42,7 @@ indexApp.on('connection', socket=>{
     indexApp.to(socket.id).emit('room', randomHash(15));
 
     socket.on('createInvitation', data=>{
-       let token =  chat.createToken(data.room, data.userName, data.code);
+       let token =  users.createToken(data.room, data.userName, data.code);
        indexApp.to(socket.id).emit('token', {
            url: token,
            user : data.userName
@@ -60,15 +62,24 @@ app.get('/chat', (req, res) => {
 let chatApp = io.of('/chat');
 
 chatApp.on('connection', socket => {
+
     socket.on('code', data => {
-        let token = chat.decodeToken(data.code, encodeURIComponent(socket.handshake.query.token));
-        console.log(token);
+        let token = users.decodeToken(data.code, encodeURIComponent(socket.handshake.query.token));
         if(token){
-            socket.join(token.ID);
+            socket.join(token.roomID);
+            users.addUser(socket.id, token.userName, token.roomID);
+            socket.to(token.roomID).emit('welcome', `${token.userName}, has joined`);
+            chatApp.to(socket.id).emit("joinToChat", 'You have joined to the chat')
         }else{
             chatApp.to(socket.id).emit('incorectCode', "Wrong code, Try again");
         }
     });
+
+    socket.on('message', data=>{
+        let user = users.getUserByID(socket.id)
+        socket.to(user.roomID).emit('messageToUsers', generateMessage(user.name, data, user.color));
+        chatApp.to(socket.id).emit("messageToOwner", generateMessage(user.name, data, user.color));
+    })
     
 });
 

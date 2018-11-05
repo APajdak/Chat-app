@@ -70,14 +70,14 @@ input {
     color: #eeeeee;
 }
 
-ul {
+#links {
     margin: 20px 10px;
     padding: 5px 10px;
     background-color: #bbbbbb;
     box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.62);
 }
 
-ul li {
+#links li {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-gap: 10px;
@@ -128,6 +128,7 @@ li .wrapper input {
     grid-template-columns: 100%;
     grid-template-rows: 20% 2% 73% 5%;
     grid-template-areas: "header" "date" "chat" "form";
+    margin: 0 40px
 }
 
 #users-list {
@@ -143,42 +144,84 @@ li .wrapper input {
 
 #message-list {
     grid-area: chat;
-    background-color: green;
     overflow: auto;
+    padding: 5px;
 }
 
-#message-list {
-    grid-area: chat;
-    background-color: green;
-    overflow: auto;
+#message-list li{
+    list-style: none;
 }
+#message-list li.owner-message{
+}
+
+#message-list li p{
+    padding: 20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: fit-content;
+    max-width: 60%;
+    margin: 5px;
+    margin-bottom: 0;
+}
+#message-list li div.owner{
+    left: 5px;
+    text-align: right;
+}
+
+#message-list li div.owner p{
+    left: 5px;
+    text-align: right;
+    display: inline-block;
+    margin-bottom: 0;
+    
+}
+#message-list li div.owner span{
+    margin-right: 10px;
+    color: #545455;
+    font-size: 12px;
+    margin-top: 0;
+    
+}
+#message-list div{
+    word-wrap: break-word;
+    margin-bottom: 5px;
+}
+#message-list li span:nth-child(2){
+    margin-left: 10px;
+    font-weight: bold;
+    color: #545455;
+    font-size: 12px;
+}
+#message-list li span:nth-child(3){
+    margin-left: 10px;
+    color: #545455;
+    font-size: 10px;
+}
+
 
 #message-list::-webkit-scrollbar {
     width: 12px;
 }
 
 #message-list::-webkit-scrollbar-track {
-    background: rgb(0, 0, 0);
+    background: #3b3b3b;
     border: 4px solid transparent;
     background-clip: content-box;
 }
 
 #message-list::-webkit-scrollbar-thumb {
-    background: #cb18f8d0;
+    background: #000000;
 }
-
-#message-list::-webkit-scrollbar-thumb:hover {}
-
-#message-list li {}
 
 #message-form {
     grid-area: form;
-    background-color: red;
+    background: #000000;
 }
 
 #message-form input {
     width: 100%;
     font-size: 20px;
+    text-align: left;
 }
 
 #secret {
@@ -188,10 +231,14 @@ li .wrapper input {
     position: absolute;
     top: calc(50% - 50px/2);
     left: calc(50% - 308px/2);
+    z-index: 5;
 }
 
 #secret form {
-    background-color: #9b289b;
+    background-color: #8a478a;
+}
+#code{
+    outline: none;
 }
 
 #error {
@@ -232,3 +279,6 @@ li .wrapper input {
         transform: translate3d(5px, 0, 0);
     }
 }
+/* .blur{
+    filter: blur(2px);
+} */
