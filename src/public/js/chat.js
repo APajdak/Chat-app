@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#code').value = '';
     }
 
-    socket.on('incorectCode', data => {
+    socket.on('incorrectCode', data => {
         document.querySelector('.error-msg').innerHTML = data;
         document.querySelector('#error').classList.remove('hide');
         document.querySelector('.error-msg').classList.remove('shake');
@@ -22,13 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 100);
     });
 
-    socket.on('welcome', data => {
-        console.log(data);
-    });
-
-    socket.on('joinToChat', data => {
+    socket.on('joinToChat', () => {
         document.querySelector('.chat-container').classList.remove('blur');
         document.querySelector('#secret').classList.add('hide');
+        document.querySelector('#message-input').removeAttribute('disabled')
 
         document.querySelector('#message-form').addEventListener('submit', (e) => {
             e.preventDefault();
@@ -53,7 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
         p.style.backgroundColor = data.color;
         let timeSpan = document.createElement('span');
         timeSpan.classList.add('time');
-        timeSpan.innerText= data.sendedAt;
+        timeSpan.innerText = data.sendedAt;
         let userNamespan;
         let spansDiv;
         div.append(p);
@@ -73,8 +70,23 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#message-list').append(li);
         scrollChatWindow();
     }
-    function scrollChatWindow(){
+
+    socket.on('updateUsersList', data => {
+        let userList = document.querySelector('#users');
+        while (userList.firstChild) {
+            userList.removeChild(userList.firstChild);
+        }
+        for (let i = 0; i < data.length; i++) {
+            let li = document.createElement('li');
+            li.classList.add("user-li");
+            li.innerText = data[i].name;
+            li.style.backgroundColor = data[i].color;
+            userList.appendChild(li);
+        }
+
+    })
+
+    function scrollChatWindow() {
         document.querySelector('#message-list').scrollTop = document.querySelector('#message-list').scrollHeight;
     }
-})
-
+});

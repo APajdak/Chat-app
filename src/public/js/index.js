@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const socket = io('/index');
     let roomId;
+    let names = [];
     socket.on('room', room => {
         roomId = room
     });
@@ -8,14 +9,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function createInvitation() {
         let userNameInput = document.querySelector('#usr');
-        if (userNameInput.value) {
+        if (userNameInput.value && names.indexOf(userNameInput.value) === -1) {
             socket.emit('createInvitation', {
                 room: roomId,
                 userName: userNameInput.value,
                 code: document.querySelector('#code').innerText
             });
-            userNameInput.value = "";
+            names.push(userNameInput.value);
         }
+        userNameInput.value = "";
     }
 
     socket.on('token', data => {

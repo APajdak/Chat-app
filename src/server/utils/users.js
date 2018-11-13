@@ -3,7 +3,6 @@ const User = require('./user');
 
 class Users {
     constructor() {
-        this.tokens = [];
         this.users = [];
     }
 
@@ -19,7 +18,6 @@ class Users {
     createToken(roomID, userName, code) {
         let crypto = new Crypto(code);
         let token = crypto.encrypt({ roomID, userName })
-        this.tokens.push(token);
         return token;
     }
     decodeToken(code, token) {
@@ -30,10 +28,15 @@ class Users {
     getRandomColor() {
         let letters = '0123456789ABCDEF';
         let color = '#';
-        for (var i = 0; i < 6; i++) {
+        for (let i = 0; i < 6; i++) {
             color += letters[Math.floor(Math.random() * 16)];
         }
         return color;
+    }
+
+    getUsersListByRoomID(roomid) {
+        let list = this.users.filter(user => user.roomID == roomid);
+        return list;
     }
 
 }

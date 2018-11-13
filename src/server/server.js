@@ -8,7 +8,8 @@ const date = require('date-and-time');
 
 const Users = require('./utils/users');
 const randomHash = require('./utils/randomHash');
-const {generateMessage} = require('./utils/message');
+const { generateMessage } = require('./utils/message');
+const stringValidation = require('./utils/validation');
 
 let users = new Users();
 
@@ -37,16 +38,16 @@ app.get('/', (req, res) => {
 });
 let indexApp = io.of('/index');
 
-indexApp.on('connection', socket=>{
-    
+indexApp.on('connection', socket => {
+
     indexApp.to(socket.id).emit('room', randomHash(15));
 
-    socket.on('createInvitation', data=>{
-       let token =  users.createToken(data.room, data.userName, data.code);
-       indexApp.to(socket.id).emit('token', {
-           url: token,
-           user : data.userName
-       });
+    socket.on('createInvitation', data => {
+        let token = users.createToken(data.room, data.userName, data.code);
+        indexApp.to(socket.id).emit('token', {
+            url: token,
+            user: data.userName
+        });
     })
 })
 
@@ -65,22 +66,34 @@ chatApp.on('connection', socket => {
 
     socket.on('code', data => {
         let token = users.decodeToken(data.code, encodeURIComponent(socket.handshake.query.token));
-        if(token){
+        if (token) {
             socket.join(token.roomID);
             users.addUser(socket.id, token.userName, token.roomID);
-            socket.to(token.roomID).emit('welcome', `${token.userName}, has joined`);
-            chatApp.to(socket.id).emit("joinToChat", 'You have joined to the chat')
-        }else{
-            chatApp.to(socket.id).emit('incorectCode', "Wrong code, Try again");
+            chatApp.to(token.roomID).emit('updateUsersList', users.getUsersListByRoomID(token.roomID));
+            chatApp.to(socket.id).emit("joinToChat");
+        } else {
+            chatApp.to(socket.id).emit('incorrectCode', "Wrong code, Try again");
         }
     });
 
-    socket.on('message', data=>{
-        let user = users.getUserByID(socket.id)
-        socket.to(user.roomID).emit('messageToUsers', generateMessage(user.name, data, user.color));
-        chatApp.to(socket.id).emit("messageToOwner", generateMessage(user.name, data, user.color));
+    socket.on('message', data => {
+        if (!stringValidation(data))
+            return false;
+        let user = users.getUserByID(socket.id);
+        if(user){
+            socket.to(user.roomID).emit('messageToUsers', generateMessage(user.name, data, user.color));
+            chatApp.to(socket.id).emit("messageToOwner", generateMessage(user.name, data, user.color));
+        }
+    });
+
+    socket.on('disconnect', () => {
+        let user = users.getUserByID(socket.id);
+        if (user) {
+            users.removeUserByID(user.id);
+            chatApp.to(user.roomID).emit('updateUsersList', users.getUsersListByRoomID(user.roomID));
+        }
     })
-    
+
 });
 
 

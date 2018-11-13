@@ -1,8 +1,8 @@
-getTime = function(){
-  let msgTime =  new Date()
-  let hours = msgTime.getHours();
-  let minutes = msgTime.getMinutes();
-  let seconds = msgTime.getSeconds();
+getTime = function () {
+  let msgTime = new Date()
+  let hours = (msgTime.getHours() < 10 ? '0' : '') + msgTime.getHours();;
+  let minutes = (msgTime.getMinutes() < 10 ? '0' : '') + msgTime.getMinutes();
+  let seconds = (msgTime.getSeconds() < 10 ? '0' : '') + msgTime.getSeconds();
   return `${hours}:${minutes}:${seconds}`;
 }
 
@@ -15,4 +15,4 @@ let generateMessage = (from, msg, color) => {
   }
 }
 
-module.exports = {generateMessage}
+module.exports = { generateMessage }

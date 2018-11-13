@@ -10,7 +10,7 @@ body {
 }
 
 body {
-    height: 100vh;
+    /* height: 100vh; */
     width: 100%;
     position: relative;
     background-color: rgb(173, 173, 173)
@@ -123,17 +123,34 @@ li .wrapper input {
 /* CHAT VIEW */
 
 .chat-container {
-    height: 100vh;
+    height: 70vh;
     display: grid;
-    grid-template-columns: 100%;
-    grid-template-rows: 20% 2% 73% 5%;
-    grid-template-areas: "header" "date" "chat" "form";
-    margin: 0 40px
+    grid-template-columns: 20% 80%;
+    grid-template-rows: 2% 94% 4%;
+    grid-template-areas: "aside  date" "aside  chat" "aside  form";
+    margin: 5vw 20vw 0 20vw;
+    border: 2px solid #8a478a;
+    border-radius: 5px;
 }
 
 #users-list {
-    grid-area: header;
-    background-color: blue;
+    grid-area: aside;
+    border-right: 2px solid #8a478a;
+    margin: 2px;
+    text-align: center;
+}
+
+#users {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.user-li {
+    margin: 10px 10px 0 10px;
+    padding: 5px 0;
+    border: 1px solid #8a478a
 }
 
 #current-date {
@@ -146,16 +163,17 @@ li .wrapper input {
     grid-area: chat;
     overflow: auto;
     padding: 5px;
+    margin-bottom: 0px;
 }
 
-#message-list li{
+#message-list li {
     list-style: none;
 }
-#message-list li.owner-message{
-}
 
-#message-list li p{
-    padding: 20px;
+#message-list li.owner-message {}
+
+#message-list li p {
+    padding: 10px 20px;
     border: 1px solid black;
     border-radius: 10px;
     width: fit-content;
@@ -163,41 +181,43 @@ li .wrapper input {
     margin: 5px;
     margin-bottom: 0;
 }
-#message-list li div.owner{
+
+#message-list li div.owner {
     left: 5px;
     text-align: right;
 }
 
-#message-list li div.owner p{
+#message-list li div.owner p {
     left: 5px;
     text-align: right;
     display: inline-block;
     margin-bottom: 0;
-    
 }
-#message-list li div.owner span{
+
+#message-list li div.owner span {
     margin-right: 10px;
     color: #545455;
     font-size: 12px;
     margin-top: 0;
-    
 }
-#message-list div{
+
+#message-list div {
     word-wrap: break-word;
     margin-bottom: 5px;
 }
-#message-list li span:nth-child(2){
+
+#message-list li span:nth-child(2) {
     margin-left: 10px;
     font-weight: bold;
     color: #545455;
     font-size: 12px;
 }
-#message-list li span:nth-child(3){
+
+#message-list li span:nth-child(3) {
     margin-left: 10px;
     color: #545455;
     font-size: 10px;
 }
-
 
 #message-list::-webkit-scrollbar {
     width: 12px;
@@ -216,6 +236,7 @@ li .wrapper input {
 #message-form {
     grid-area: form;
     background: #000000;
+    border-bottom-right-radius: 5px;
 }
 
 #message-form input {
@@ -237,7 +258,8 @@ li .wrapper input {
 #secret form {
     background-color: #8a478a;
 }
-#code{
+
+#code {
     outline: none;
 }
 
@@ -279,6 +301,7 @@ li .wrapper input {
         transform: translate3d(5px, 0, 0);
     }
 }
-/* .blur{
+
+.blur {
     filter: blur(2px);
-} */
+}
